@@ -1,4 +1,4 @@
-import { AbsoluteFill, Canvas, interpolate, Sequence, useVideoConfig, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Canvas, interpolate, useVideoConfig, useCurrentFrame } from "remotion";
 import React, { useMemo } from "react";
 
 export const NeonStage: React.FC<{
@@ -62,11 +62,9 @@ export const NeonStage: React.FC<{
         {glowFilter}
         {dustParticles}
         <FloorLine y={floorY} width={width} />
-        {enableCamera && <CameraWrapper floorY={floorY} />}
-        {children}
-        <ReflectionContainer floorY={floorY}>
-          {children}
-        </ReflectionContainer>
+        {enableCamera && <CameraWrapper floorY={floorY}>{children}</CameraWrapper>}
+        {!enableCamera && children}
+        <Reflection floorY={floorY} />
       </Canvas>
     </AbsoluteFill>
   );
@@ -92,24 +90,19 @@ const CameraWrapper: React.FC<{ floorY: number; children: React.ReactNode }> = (
   const translateY = interpolate(frame, [0, 300], [0, -20]);
 
   return (
-    <g
-      transform={`translate(540, ${floorY}) scale(${scale}) translate(-540, ${-floorY + translateY})`}
-    >
+    <g transform={`translate(540, ${floorY}) scale(${scale}) translate(-540, ${-floorY + translateY})`}>
       {children}
     </g>
   );
 };
 
-const ReflectionContainer: React.FC<{ floorY: number; children: React.ReactNode }> = ({
-  floorY,
-  children,
-}) => (
+const Reflection: React.FC<{ floorY: number }> = ({ floorY }) => (
   <g
     transform={`translate(0, ${floorY * 2}) scale(1, -1)`}
     filter="url(#reflection-blur)"
     opacity={0.2}
   >
-    {children}
+    <rect x={0} y={0} width={1080} height={1920} fill="none" />
   </g>
 );
 
