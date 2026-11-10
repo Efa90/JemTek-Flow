@@ -1,4 +1,4 @@
-import { AbsoluteFill, Composition, interpolate, registerRoot, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import React, { useMemo } from "react";
 
 const GOLD = "#FFD166";
@@ -111,16 +111,4 @@ const Ep01Test = () => {
   );
 };
 
-const Root = () => (
-  <Composition
-    id="Ep01Test"
-    component={Ep01Test}
-    width={1080}
-    height={1920}
-    fps={60}
-    durationInFrames={900}
-  />
-);
-
-registerRoot(Root);
 export { Ep01Test };
