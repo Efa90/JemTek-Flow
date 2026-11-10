@@ -1,4 +1,4 @@
-import { useVideoConfig, interpolateColors } from "remotion";
+import { interpolate, useCurrentFrame } from "remotion";
 import React, { useMemo } from "react";
 
 export const JemAvatar: React.FC<{
@@ -14,7 +14,7 @@ export const JemAvatar: React.FC<{
   tieColor = "gold",
   animated = true,
 }) => {
-  const { frame, fps } = useVideoConfig();
+  const frame = useCurrentFrame();
 
   const tieColors = {
     gold: "#FFD166",
@@ -22,7 +22,7 @@ export const JemAvatar: React.FC<{
   };
 
   const glowIntensity = animated
-    ? interpolateColors(frame / fps % 2, [0, 1], [0.6, 1])
+    ? interpolate(frame / 60 % 2, [0, 1], [0.6, 1])
     : 1;
 
   const avatar = useMemo(() => (

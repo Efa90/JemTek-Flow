@@ -1,4 +1,4 @@
-import { AbsoluteFill, Canvas, interpolateColors, Sequence, useVideoConfig } from "remotion";
+import { AbsoluteFill, Canvas, interpolate, Sequence, useVideoConfig, useCurrentFrame } from "remotion";
 import React, { useMemo } from "react";
 
 export const NeonStage: React.FC<{
@@ -6,7 +6,8 @@ export const NeonStage: React.FC<{
   enableCamera?: boolean;
 }> = ({ children, enableCamera = true }) => {
   const { width, height, fps, durationInFrames } = useVideoConfig();
-  const floorY = 1450;
+  const frame = useCurrentFrame();
+  const floorY = 1350;
 
   const glowFilter = useMemo(() => (
     <defs>
@@ -49,7 +50,6 @@ export const NeonStage: React.FC<{
           delay={delay}
           duration={duration}
           fps={fps}
-          frame={0}
         />
       );
     }
@@ -58,11 +58,7 @@ export const NeonStage: React.FC<{
 
   return (
     <AbsoluteFill style={{ background: "#000000" }}>
-      <Canvas
-        width={width}
-        height={height}
-        style={{ filter: "url(#neon-glow)" }}
-      >
+      <Canvas width={width} height={height}>
         {glowFilter}
         {dustParticles}
         <FloorLine y={floorY} width={width} />
@@ -90,10 +86,10 @@ const FloorLine: React.FC<{ y: number; width: number }> = ({ y, width }) => (
   />
 );
 
-const CameraWrapper: React.FC<{ floorY: number }> = ({ floorY, children }) => {
-  const { frame } = useVideoConfig();
-  const scale = interpolateColors(frame, [0, 300], [1, 1.02]);
-  const translateY = interpolateColors(frame, [0, 300], [0, -20]);
+const CameraWrapper: React.FC<{ floorY: number; children: React.ReactNode }> = ({ floorY, children }) => {
+  const frame = useCurrentFrame();
+  const scale = interpolate(frame, [0, 300], [1, 1.02]);
+  const translateY = interpolate(frame, [0, 300], [0, -20]);
 
   return (
     <g
@@ -111,7 +107,7 @@ const ReflectionContainer: React.FC<{ floorY: number; children: React.ReactNode 
   <g
     transform={`translate(0, ${floorY * 2}) scale(1, -1)`}
     filter="url(#reflection-blur)"
-    opacity={0.18}
+    opacity={0.2}
   >
     {children}
   </g>
@@ -125,7 +121,6 @@ interface DustParticleProps {
   delay: number;
   duration: number;
   fps: number;
-  frame: number;
 }
 
 const DustParticle: React.FC<DustParticleProps> = ({
@@ -137,7 +132,7 @@ const DustParticle: React.FC<DustParticleProps> = ({
   duration,
   fps,
 }) => {
-  const { frame } = useVideoConfig();
+  const frame = useCurrentFrame();
   const localFrame = frame - delay;
 
   if (localFrame < 0 || localFrame > duration) return null;

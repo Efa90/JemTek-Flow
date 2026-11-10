@@ -1,4 +1,4 @@
-import { useVideoConfig, interpolateColors } from "remotion";
+import { useVideoConfig, useCurrentFrame } from "remotion";
 import React, { useMemo } from "react";
 
 interface WireframeBoxProps {
@@ -22,12 +22,13 @@ export const WireframeBox: React.FC<WireframeBoxProps> = ({
   rotationSpeed = 0.002,
   animated = true,
 }) => {
-  const { frame, width, height } = useVideoConfig();
+  const { width, height } = useVideoConfig();
+  const frame = useCurrentFrame();
 
   const colors = {
     gold: "#FFD166",
     cyan: "#00F5D4",
-    red: "#FF4D4D",
+    red: "#FF3366",
     white: "#FFFFFF",
   };
 

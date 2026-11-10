@@ -1,4 +1,4 @@
-import { useVideoConfig, interpolate, spring } from "remotion";
+import { interpolate, spring, useCurrentFrame } from "remotion";
 import React from "react";
 
 interface AnimatedCounterProps {
@@ -26,12 +26,12 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   fontSize = 72,
   delay = 0,
 }) => {
-  const { frame, fps } = useVideoConfig();
+  const frame = useCurrentFrame();
 
   const colors = {
     gold: "#FFD166",
     cyan: "#00F5D4",
-    red: "#FF4D4D",
+    red: "#FF3366",
     white: "#FFFFFF",
   };
 
@@ -39,7 +39,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
 
   const progress = spring({
     frame: frame - delay,
-    fps,
+    fps: 60,
     config: { damping: 120, stiffness: 180 },
   });
 

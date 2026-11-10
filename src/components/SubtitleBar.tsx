@@ -1,4 +1,4 @@
-import { useVideoConfig, interpolate } from "remotion";
+import { interpolate, useCurrentFrame } from "remotion";
 import React, { useMemo } from "react";
 
 interface SubtitleBarProps {
@@ -16,12 +16,12 @@ export const SubtitleBar: React.FC<SubtitleBarProps> = ({
   fontSize = 36,
   maxWidth = 900,
 }) => {
-  const { frame } = useVideoConfig();
+  const frame = useCurrentFrame();
 
   const colors = {
     gold: "#FFD166",
     cyan: "#00F5D4",
-    red: "#FF4D4D",
+    red: "#FF3366",
     white: "#FFFFFF",
   };
 
