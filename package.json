@@ -1,0 +1,23 @@
+{
+  "name": "jemtek-flow",
+  "version": "1.0.0",
+  "description": "Automated TikTok/Shorts Remotion project with JemTek Neon Wireframe style",
+  "type": "module",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render Ep01Test out/video.mp4 --codec=h264 --crf=18",
+    "test": "remotion test"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/eslint-config": "^4.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.3.0"
+  }
+}
